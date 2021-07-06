@@ -1,0 +1,36 @@
+name: 'test'
+
+on:
+- 'pull_request'
+- 'push'
+
+jobs:
+  basic:
+    runs-on: 'ubuntu-18.04'
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        container_os:
+        - 'centos:7'
+        - 'debian:9-slim'
+        - 'debian:10-slim'
+        - 'ubuntu:18.04'
+        - 'ubuntu:20.04'
+        arch:
+        - 'amd64'
+
+    steps:
+    - uses: 'actions/checkout@v1'
+      with:
+        submodules: 'recursive'
+    - name: 'Run'
+      run: |
+        docker run --rm \
+          -v "$GITHUB_WORKSPACE:/src" \
+          -e "ARCH=$ARCH" \
+          "${{ matrix.container_os }}" \
+          '/src/ci/test-basic.sh'
+      env:
+        ARCH: "${{ matrix.arch }}"
