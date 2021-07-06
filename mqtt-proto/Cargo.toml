@@ -1,0 +1,8 @@
+[package]
+name = "mqtt-proto"
+version = "0.1.0"
+authors = ["Azure IoT Edge Devs"]
+license = "MIT"
+edition = "2018"
+
+[dependencies]
